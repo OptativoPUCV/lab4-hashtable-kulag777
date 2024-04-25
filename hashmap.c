@@ -21,16 +21,7 @@ Pair *createPair(char *key, void *value) {
   new->value = value;
   return new;
 }
-HashMap *createMap(long capacity) {
-  HashMap *map = (HashMap *)malloc(sizeof(HashMap));
-  if (map == NULL)
-    return NULL;
-  map->buckets = (Pair **)malloc(capacity * sizeof(Pair *));
-  map->capacity = capacity;
-  map->size = 0;
-  map->current = -1;
-  return map;
-}
+
 long hash(char *key, long capacity) {
   unsigned long hash = 0;
   char *ptr;
@@ -54,8 +45,16 @@ void enlarge(HashMap *map) {
   enlarge_called = 1; // no borrar (testing purposes)
 }
 
-HashMap *createMap(long capacity) { return NULL; }
-
+HashMap *createMap(long capacity) {
+  HashMap *map = (HashMap *)malloc(sizeof(HashMap));
+  if (map == NULL)
+    return NULL;
+  map->buckets = (Pair **)malloc(capacity * sizeof(Pair *));
+  map->capacity = capacity;
+  map->size = 0;
+  map->current = -1;
+  return map;
+}
 void eraseMap(HashMap *map, char *key) {}
 
 Pair *searchMap(HashMap *map, char *key) { return NULL; }
