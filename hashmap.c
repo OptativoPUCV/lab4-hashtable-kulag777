@@ -116,7 +116,6 @@ Pair *firstMap(HashMap *map) {
         map->buckets[map->current]->key != NULL) {
       return map->buckets[map->current];
     }
-    map->current++;
   }
   map->current = -1;
   return NULL;
