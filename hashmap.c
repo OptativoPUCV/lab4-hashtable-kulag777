@@ -136,16 +136,21 @@ Pair *searchMap(HashMap *map, char *key) {
 }
 
 Pair *firstMap(HashMap *map) {
-  if (map == NULL) {
+  if (map == NULL || map->size == 0) {
     return NULL;
   }
-  while (map->current + 1 < map->capacity) {
+
+  // Start from the beginning of the buckets array
+  map->current = 0;
+  while (map->current < map->capacity) {
     if (map->buckets[map->current] != NULL &&
         map->buckets[map->current]->key != NULL) {
       return map->buckets[map->current];
     }
     map->current++;
   }
+
+  // If no valid pair is found, reset current to -1
   map->current = -1;
   return NULL;
 }
