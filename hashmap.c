@@ -156,17 +156,21 @@ Pair *firstMap(HashMap *map) {
 }
 
 Pair *nextMap(HashMap *map) {
-  if (map == NULL || map->current < 0) {
+  if (map == NULL || map->size == 0 || map->current == -1) {
     return NULL;
   }
-  while (map->current + 1 < map->capacity) {
+
+  // Move to the next position in the buckets array
+  map->current++;
+  while (map->current < map->capacity) {
     if (map->buckets[map->current] != NULL &&
         map->buckets[map->current]->key != NULL) {
-      map->current++;
       return map->buckets[map->current];
     }
     map->current++;
   }
+
+  // If no valid pair is found, reset current to -1
   map->current = -1;
   return NULL;
 }
