@@ -61,6 +61,35 @@ void insertMap(HashMap *map, char *key, void *value) {
 
 void enlarge(HashMap *map) {
   enlarge_called = 1; // no borrar (testing purposes)
+
+  // a - Create an auxiliary variable to maintain the array of buckets
+  // (old_buckets)
+  Pair **old_buckets = map->buckets;
+
+  // b - Duplicate the value of the variable capacity
+  long old_capacity = map->capacity;
+  map->capacity *= 2;
+
+  // c - Assign a new array to map->buckets with the new capacity
+  map->buckets = (Pair **)malloc(map->capacity * sizeof(Pair *));
+  if (map->buckets == NULL) {
+    // Error handling if malloc fails
+    // You can add your error handling code here
+    return;
+  }
+
+  // d - Initialize size to 0
+  map->size = 0;
+
+  // e - Insert elements from the old_buckets array into the new map
+  for (long i = 0; i < old_capacity; i++) {
+    if (old_buckets[i] != NULL && old_buckets[i]->key != NULL) {
+      insertMap(map, old_buckets[i]->key, old_buckets[i]->value);
+    }
+  }
+
+  // Free the memory allocated for the old_buckets array
+  free(old_buckets);
 }
 
 HashMap *createMap(long capacity) {
